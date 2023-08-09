@@ -42,7 +42,6 @@ class ProductController extends Controller
 
         // validation input
         $validator = Validator::make($request->all(), [
-            // add all
             'id_kategori' => 'required',
             'id_subkategori' => 'required',
             'nama_barang' => 'required',
