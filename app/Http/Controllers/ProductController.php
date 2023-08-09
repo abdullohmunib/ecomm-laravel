@@ -39,7 +39,6 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-
         // validation input
         $validator = Validator::make($request->all(), [
             'id_kategori' => 'required',
@@ -63,7 +62,7 @@ class ProductController extends Controller
             );
         }
 
-        // get image
+        // get image //
         $input = $request->all();
         if ($request->has('gambar')) {
             $gambar = $request->file('gambar');
