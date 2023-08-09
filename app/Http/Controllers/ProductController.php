@@ -42,7 +42,7 @@ class ProductController extends Controller
 
         // validation input
         $validator = Validator::make($request->all(), [
-
+            // add all
             'id_kategori' => 'required',
             'id_subkategori' => 'required',
             'nama_barang' => 'required',
@@ -57,15 +57,16 @@ class ProductController extends Controller
             'warna' => 'required',
 
         ]);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json(
-                $validator->errors(), 422
+                $validator->errors(),
+                422
             );
         }
-        
+
         // get image
         $input = $request->all();
-        if($request->has('gambar')){
+        if ($request->has('gambar')) {
             $gambar = $request->file('gambar');
             $nama_gambar = time() . rand(1, 9) . '.' . $gambar->getClientOriginalExtension();
             $gambar->move('uploads', $nama_gambar);
@@ -100,8 +101,8 @@ class ProductController extends Controller
     public function update(Request $request, Product $Product)
     {
 
-         // validation input
-         $validator = Validator::make($request->all(), [
+        // validation input
+        $validator = Validator::make($request->all(), [
             'id_kategori' => 'required',
             'id_subkategori' => 'required',
             'nama_barang' => 'required',
@@ -115,21 +116,22 @@ class ProductController extends Controller
             'ukuran' => 'required',
             'warna' => 'required',
         ]);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json(
-                $validator->errors(), 422
+                $validator->errors(),
+                422
             );
         }
         // get image
         $input = $request->all();
-        if($request->has('gambar')){
+        if ($request->has('gambar')) {
             // delete image before
             File::delete('uploads/' . $Product->gambar);
             $gambar = $request->file('gambar');
             $nama_gambar = time() . rand(1, 9) . '.' . $gambar->getClientOriginalExtension();
             $gambar->move('uploads', $nama_gambar);
             $input['gambar'] = $nama_gambar;
-        }else{
+        } else {
             unset($input['gambar']);
         }
 
