@@ -37,6 +37,6 @@ Route::group([
         'sliders' => SliderController::class,
         'products' => ProductController::class,
         'members' => MemberController::class,
-        'testimonies' => TestimoniController::class,
+        'testimonis' => TestimoniController::class,
     ]);
 });

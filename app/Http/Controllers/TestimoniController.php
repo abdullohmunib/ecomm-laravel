@@ -20,9 +20,9 @@ class TestimoniController extends Controller
     public function index()
     {
         //
-        $categories = Testimoni::all();
+        $testimonis = Testimoni::all();
         return response()->json([
-            'data' => $categories
+            'data' => $testimonis
         ]);
     }
 
@@ -72,7 +72,7 @@ class TestimoniController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Testimoni $Testimoni)
+    public function show(Testimoni $testimoni)
     {
         //
     }
@@ -80,17 +80,15 @@ class TestimoniController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Testimoni $Testimoni)
+    public function edit(Testimoni $testimoni)
     {
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Testimoni $Testimoni)
+    public function update(Request $request, Testimoni $testimoni)
     {
-
-        // validation input
         $validator = Validator::make($request->all(), [
             "nama_testimoni" => 'required',
             'gambar' => 'required|image|mimes:jpg,png,jpeg,webp',
@@ -106,7 +104,7 @@ class TestimoniController extends Controller
         $input = $request->all();
         if ($request->has('gambar')) {
             // delete image before
-            File::delete('uploads/' . $Testimoni->gambar);
+            File::delete('uploads/' . $testimoni->gambar);
             $gambar = $request->file('gambar');
             $nama_gambar = time() . rand(1, 9) . '.' . $gambar->getClientOriginalExtension();
             $gambar->move('uploads', $nama_gambar);
@@ -115,10 +113,10 @@ class TestimoniController extends Controller
             unset($input['gambar']);
         }
 
-        $Testimoni->update($input);
+        $testimoni->update($input);
         return response()->json([
             'message' => 'success',
-            'data' => $Testimoni
+            'data' => $testimoni
         ]);
     }
 
