@@ -89,8 +89,6 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-
-        // validation input
         $validator = Validator::make($request->all(), [
             "nama_kategori" => 'required',
             'gambar' => 'required|image|mimes:jpg,png,jpeg,webp',
