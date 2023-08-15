@@ -20,7 +20,7 @@ class OrderController extends Controller
 
     public function index()
     {
-        
+
         $orders = Order::all();
         return response()->json([
             'data' => $orders
@@ -47,14 +47,14 @@ class OrderController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json(
-                $validator->errors(),   
+                $validator->errors(),
                 422
             );
         }
         $Order = Order::create($request->all());
-        
+
         // input to order_details_table
-        for ($i=0; $i < count($request['id_produk']); $i++) {
+        for ($i = 0; $i < count($request['id_produk']); $i++) {
             OrderDetail::create([
                 'id_order' => $Order['id'],
                 'id_produk' => $request['id_produk'][$i],
@@ -62,7 +62,7 @@ class OrderController extends Controller
                 'size' => $request['size'][$i],
                 'color' => $request['color'][$i],
                 'total' => $request['total'][$i],
-                
+
             ]);
         }
 
@@ -76,7 +76,9 @@ class OrderController extends Controller
      */
     public function show(Order $Order)
     {
-        //
+        return response()->json([
+            'data' => $Order
+        ]);
     }
 
     /**
@@ -106,7 +108,7 @@ class OrderController extends Controller
         OrderDetail::where('id_order', $Order['id'])->delete();
 
         // update data to order_details_table
-        for ($i=0; $i < count($request['id_produk']); $i++) {
+        for ($i = 0; $i < count($request['id_produk']); $i++) {
             OrderDetail::create([
                 'id_order' => $Order['id'],
                 'id_produk' => $request['id_produk'][$i],
@@ -114,7 +116,7 @@ class OrderController extends Controller
                 'size' => $request['size'][$i],
                 'color' => $request['color'][$i],
                 'total' => $request['total'][$i],
-                
+
             ]);
         }
 

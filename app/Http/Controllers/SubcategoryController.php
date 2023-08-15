@@ -42,20 +42,21 @@ class SubcategoryController extends Controller
 
         // validation input
         $validator = Validator::make($request->all(), [
-            "nama_subkategori" =>'required',
+            "nama_subkategori" => 'required',
             "id_kategori" => 'required',
-            "deskripsi" =>'required',
+            "deskripsi" => 'required',
             "gambar" => 'required|image|mimes:jpg,png,jpeg,webp'
         ]);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json(
-                $validator->errors(), 422
+                $validator->errors(),
+                422
             );
         }
-        
+
         // get image
         $input = $request->all();
-        if($request->has('gambar')){
+        if ($request->has('gambar')) {
             $gambar = $request->file('gambar');
             $nama_gambar = time() . rand(1, 9) . '.' . $gambar->getClientOriginalExtension();
             $gambar->move('uploads', $nama_gambar);
@@ -74,7 +75,9 @@ class SubcategoryController extends Controller
      */
     public function show(Subcategory $Subcategory)
     {
-        //
+        return response()->json([
+            'data' => $Subcategory
+        ]);
     }
 
     /**
@@ -90,27 +93,28 @@ class SubcategoryController extends Controller
     public function update(Request $request, Subcategory $Subcategory)
     {
 
-         // validation input
-         $validator = Validator::make($request->all(), [
-            "nama_subkategori" =>'required',
+        // validation input
+        $validator = Validator::make($request->all(), [
+            "nama_subkategori" => 'required',
             "id_kategori" => 'required',
-            "deskripsi" =>'required',
+            "deskripsi" => 'required',
         ]);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json(
-                $validator->errors(), 422
+                $validator->errors(),
+                422
             );
         }
         // get image
         $input = $request->all();
-        if($request->has('gambar')){
+        if ($request->has('gambar')) {
             // delete image before
             File::delete('uploads/' . $Subcategory->gambar);
             $gambar = $request->file('gambar');
             $nama_gambar = time() . rand(1, 9) . '.' . $gambar->getClientOriginalExtension();
             $gambar->move('uploads', $nama_gambar);
             $input['gambar'] = $nama_gambar;
-        }else{
+        } else {
             unset($input['gambar']);
         }
 

@@ -42,19 +42,20 @@ class SliderController extends Controller
 
         // validation input
         $validator = Validator::make($request->all(), [
-            "nama_slider" =>'required',
-            "deskripsi" =>'required',
+            "nama_slider" => 'required',
+            "deskripsi" => 'required',
             "gambar" => 'required|image|mimes:jpg,png,jpeg,webp'
         ]);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json(
-                $validator->errors(), 422
+                $validator->errors(),
+                422
             );
         }
-        
+
         // get image
         $input = $request->all();
-        if($request->has('gambar')){
+        if ($request->has('gambar')) {
             $gambar = $request->file('gambar');
             $nama_gambar = time() . rand(1, 9) . '.' . $gambar->getClientOriginalExtension();
             $gambar->move('uploads', $nama_gambar);
@@ -73,7 +74,9 @@ class SliderController extends Controller
      */
     public function show(Slider $Slider)
     {
-        //
+        return response()->json([
+            'data' => $Slider
+        ]);
     }
 
     /**
@@ -89,27 +92,28 @@ class SliderController extends Controller
     public function update(Request $request, Slider $Slider)
     {
 
-         // validation input
-         $validator = Validator::make($request->all(), [
-            "nama_slider" =>'required',
+        // validation input
+        $validator = Validator::make($request->all(), [
+            "nama_slider" => 'required',
             'gambar' => 'required|image|mimes:jpg,png,jpeg,webp',
-            "deskripsi" =>'required',
+            "deskripsi" => 'required',
         ]);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json(
-                $validator->errors(), 422
+                $validator->errors(),
+                422
             );
         }
         // get image
         $input = $request->all();
-        if($request->has('gambar')){
+        if ($request->has('gambar')) {
             // delete image before
             File::delete('uploads/' . $Slider->gambar);
             $gambar = $request->file('gambar');
             $nama_gambar = time() . rand(1, 9) . '.' . $gambar->getClientOriginalExtension();
             $gambar->move('uploads', $nama_gambar);
             $input['gambar'] = $nama_gambar;
-        }else{
+        } else {
             unset($input['gambar']);
         }
 
