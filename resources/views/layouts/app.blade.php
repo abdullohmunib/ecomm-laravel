@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>@yield('title')</title>
+    <title>@yield('title') | {{ config('app.name') }}</title>
 
     <!-- Custom fonts for this template-->
     <link href="sbadmin2/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

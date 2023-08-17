@@ -8,8 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>SB Admin 2 - Login</title>
+    <title>Login | {{ config('app.name') }}</title>
 
     <!-- Custom fonts for this template-->
     <link href="/sbadmin2/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -47,10 +48,10 @@
                                             <p>{{ $errors->first() }}</p>
                                         </div>
                                     @endif
-                                    <form class="user" method="POST" action="/login">
+                                    <form class="user form-login" method="POST" action="/login">
                                         @csrf
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
+                                            <input type="email" class="form-control form-control-user email"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"
                                                 placeholder="Enter Email Address..." name="email">
                                             @error('email')
@@ -60,7 +61,7 @@
                                             @enderror
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
+                                            <input type="password" class="form-control form-control-user password"
                                                 id="exampleInputPassword" placeholder="Password" name="password">
                                             @error('password')
                                                 <small class="text-danger">
@@ -114,6 +115,43 @@
 
     <!-- Custom scripts for all pages-->
     <script src="sbadmin2/js/sb-admin-2.min.js"></script>
+
+    {{-- js login --}}
+    <script>
+        $(function() {
+
+            function setCookie(cname, cvalue, exdays) {
+                const d = new Date();
+                d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+                let expires = "expires=" + d.toUTCString();
+                document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+            }
+
+            $('.form-login').submit(function(e) {
+                e.preventDefault();
+                const email = $('.email').val();
+                const password = $('.password').val();
+                const csrf_token = $('meta[name="csrf-token"]').attr('content');
+
+                $.ajax({
+                    url: '/login',
+                    type: 'POST',
+                    data: {
+                        email: email,
+                        password: password,
+                        _token: csrf_token,
+                    },
+                    success: function(data) {
+                        if (!data.success) {
+                            alert("Email atau kata sandi salah");
+                        }
+                        setCookie('token', data.token, 7);
+                        window.location.href = '/dashboard'
+                    }
+                })
+            });
+        });
+    </script>
 
 </body>
 

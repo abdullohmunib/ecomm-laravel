@@ -29,10 +29,19 @@ class AuthController extends Controller
             $token = Auth::guard('api')->attempt($credentials);
             // Cookie::queue(Cookie::make('token', $token, 60));
             // alternatif make cookie
-            cookie()->queue(cookie('token', $token, 60));
-            return redirect('/dashboard');
+            // cookie()->queue(cookie('token', $token, 60));
+            // return redirect('/dashboard');
+            return response()->json([
+                'success' => true,
+                'message' => 'Login berhasil',
+                'token' => $token
+            ]);
         }
-        return back()->withErrors('Email or password is incorrect');
+        return response()->json([
+            'success' => false,
+            'message' => 'Email or password is incorrect'
+        ]);
+        // return back()->withErrors('Email or password is incorrect');
     }
 
     protected function respondWithToken($token)
