@@ -150,6 +150,8 @@
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">@yield('title')</h1>
 
+                    @yield('content')
+
                 </div>
                 <!-- /.container-fluid -->
 
@@ -206,6 +208,27 @@
 
     <!-- Custom scripts for all pages-->
     <script src="sbadmin2/js/sb-admin-2.min.js"></script>
+
+    {{-- get cookie for get access CRUD --}}
+    <script>
+        function getCookie(cname) {
+            let name = cname + "=";
+            let ca = document.cookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+    </script>
+
+    {{-- add js --}}
+    @stack('js')
 
 </body>
 

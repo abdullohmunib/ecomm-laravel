@@ -14,7 +14,13 @@ class CategoryController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => 'index']);
+        $this->middleware('auth')->only(['list']);
+        $this->middleware('auth:api')->only(['store', 'update', 'edit']);
+    }
+
+    public function list()
+    {
+        return view('kategori.index');
     }
 
     public function index()

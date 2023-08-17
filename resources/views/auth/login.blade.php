@@ -120,12 +120,12 @@
     <script>
         $(function() {
 
-            function setCookie(cname, cvalue, exdays) {
-                const d = new Date();
-                d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-                let expires = "expires=" + d.toUTCString();
-                document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-            }
+            // function setCookie(cname, cvalue, exdays) {
+            //     const d = new Date();
+            //     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+            //     let expires = "expires=" + d.toUTCString();
+            //     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+            // }
 
             $('.form-login').submit(function(e) {
                 e.preventDefault();
@@ -145,7 +145,8 @@
                         if (!data.success) {
                             alert("Email atau kata sandi salah");
                         }
-                        setCookie('token', data.token, 7);
+
+                        localStorage.setItem('token', data.token);
                         window.location.href = '/dashboard'
                     }
                 })
