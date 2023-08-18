@@ -127,12 +127,12 @@
 
                 $('.modal-tambah').click(function() {
                     $('#modal-form').modal('show');
-
+                    $('input[name="nama_kategori"]').val('');
+                    $('textarea[name="deskripsi"]').val('');
                     $('.form-kategori').submit(function(e) {
                         e.preventDefault();
                         const token = localStorage.getItem('token');
                         const frmdata = new FormData(this);
-
                         $.ajax({
                             url: 'api/categories',
                             type: 'POST',
@@ -155,6 +155,35 @@
 
                 $(document).on('click', '.modal-ubah', function() {
                     $('#modal-form').modal('show');
+                    const id = $(this).data('id');
+                    $.get('/api/categories/' + id, function({
+                        data
+                    }) {
+                        $('input[name="nama_kategori"]').val(data.nama_kategori);
+                        $('textarea[name="deskripsi"]').val(data.deskripsi);
+                    });
+                    $('.form-kategori').submit(function(e) {
+                        e.preventDefault();
+                        const token = localStorage.getItem('token');
+                        const frmdata = new FormData(this);
+                        $.ajax({
+                            url: `api/categories/${id}?_method=PUT`,
+                            type: 'POST',
+                            data: frmdata,
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            headers: {
+                                "Authorization": "Bearer" + token
+                            },
+                            success: function(data) {
+                                if (data.success) {
+                                    alert('Item berhasil diubah!');
+                                    location.reload();
+                                }
+                            }
+                        })
+                    })
                 });
             });
         </script>

@@ -100,7 +100,6 @@ class CategoryController extends Controller
     {
         $validator = Validator::make($request->all(), [
             "nama_kategori" => 'required',
-            'gambar' => 'required|image|mimes:jpg,png,jpeg,webp',
             "deskripsi" => 'required',
         ]);
         if ($validator->fails()) {
