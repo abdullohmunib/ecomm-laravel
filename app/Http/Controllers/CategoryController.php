@@ -15,7 +15,7 @@ class CategoryController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->only(['list']);
-        $this->middleware('auth:api')->only(['store', 'update', 'edit']);
+        $this->middleware('auth:api')->only(['store', 'update', 'edit', 'destroy']);
     }
 
     public function list()
@@ -71,6 +71,7 @@ class CategoryController extends Controller
 
         $category = Category::create($input);
         return response()->json([
+            'success' => true,
             'data' => $category
         ]);
     }
@@ -123,7 +124,7 @@ class CategoryController extends Controller
 
         $category->update($input);
         return response()->json([
-            'message' => 'success',
+            'success' => true,
             'data' => $category
         ]);
     }
@@ -136,7 +137,7 @@ class CategoryController extends Controller
         File::delete('uploads/' . $category->gambar);
         $category->delete();
         return response()->json([
-            'message' => 'success'
+            'success' => true,
         ]);
     }
 }
