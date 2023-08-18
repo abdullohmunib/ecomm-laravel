@@ -76,6 +76,7 @@
     @push('js')
         <script>
             $(function() {
+                // read
                 $.ajax({
                     url: 'api/categories',
                     success: function({
@@ -102,12 +103,11 @@
                     }
                 });
 
+                // destroy
                 $(document).on('click', '.btn-hapus', function() {
                     const id = $(this).data('id');
                     const token = localStorage.getItem('token');
-
                     confirm_dialog = confirm('Apakah anda yakin?');
-
                     if (confirm_dialog) {
                         $.ajax({
                             url: '/api/categories/' + id,
@@ -125,6 +125,7 @@
                     }
                 });
 
+                // create/store/add
                 $('.modal-tambah').click(function() {
                     $('#modal-form').modal('show');
                     $('input[name="nama_kategori"]').val('');
@@ -153,6 +154,7 @@
                     })
                 });
 
+                // update
                 $(document).on('click', '.modal-ubah', function() {
                     $('#modal-form').modal('show');
                     const id = $(this).data('id');
@@ -188,6 +190,4 @@
             });
         </script>
     @endpush
-
-
 @endsection
