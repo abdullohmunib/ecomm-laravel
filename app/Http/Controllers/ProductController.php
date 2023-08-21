@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
+use App\Models\Subcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
@@ -14,15 +16,24 @@ class ProductController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => 'index']);
+        $this->middleware('auth')->only(['list']);
+        $this->middleware('auth:api')->only(['store', 'update', 'destroy']);
+    }
+
+    public function list()
+    {
+        $categories = Category::all();
+        $subcategories = Subcategory::all();
+        return view('barang.index', compact(['categories', 'subcategories']));
     }
 
     public function index()
     {
         //
-        $categories = Product::all();
+        $products = Product::with(['category', 'subcategory'])->get();
         return response()->json([
-            'data' => $categories
+            'success' => true,
+            'data' => $products
         ]);
     }
 
@@ -40,28 +51,28 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         // validation input
-        $validator = Validator::make($request->all(), [
-            // add items
-            'id_kategori' => 'required',
-            'id_subkategori' => 'required',
-            'nama_barang' => 'required',
-            'gambar' => 'required|image|mimes:jpg,png,jpeg,webp',
-            'deskripsi' => 'required',
-            'harga' => 'required',
-            'diskon' => 'required',
-            'bahan' => 'required',
-            'tags' => 'required',
-            'sku' => 'required',
-            'ukuran' => 'required',
-            'warna' => 'required',
+        // $validator = Validator::make($request->all(), [
+        //     // add items
+        //     'id_kategori' => 'required',
+        //     'id_subkategori' => 'required',
+        //     'nama_barang' => 'required',
+        //     'gambar' => 'required|image|mimes:jpg,png,jpeg,webp',
+        //     'deskripsi' => 'required',
+        //     'harga' => 'required',
+        //     'diskon' => 'required',
+        //     'bahan' => 'required',
+        //     'tags' => 'required',
+        //     'sku' => 'required',
+        //     'ukuran' => 'required',
+        //     'warna' => 'required',
 
-        ]);
-        if ($validator->fails()) {
-            return response()->json(
-                $validator->errors(),
-                422
-            );
-        }
+        // ]);
+        // if ($validator->fails()) {
+        //     return response()->json(
+        //         $validator->errors(),
+        //         422
+        //     );
+        // }
 
         // get image //
         $input = $request->all();
@@ -73,9 +84,10 @@ class ProductController extends Controller
         }
 
 
-        $Product = Product::create($input);
+        $product = Product::create($input);
         return response()->json([
-            'data' => $Product
+            'success' => true,
+            'data' => $product
         ]);
     }
 
@@ -85,6 +97,7 @@ class ProductController extends Controller
     public function show(Product $Product)
     {
         return response()->json([
+            'success' => true,
             'data' => $Product
         ]);
     }
@@ -103,26 +116,25 @@ class ProductController extends Controller
     {
 
         // validation input
-        $validator = Validator::make($request->all(), [
-            'id_kategori' => 'required',
-            'id_subkategori' => 'required',
-            'nama_barang' => 'required',
-            'gambar' => 'required|image|mimes:jpg,png,jpeg,webp',
-            'deskripsi' => 'required',
-            'harga' => 'required',
-            'diskon' => 'required',
-            'bahan' => 'required',
-            'tags' => 'required',
-            'sku' => 'required',
-            'ukuran' => 'required',
-            'warna' => 'required',
-        ]);
-        if ($validator->fails()) {
-            return response()->json(
-                $validator->errors(),
-                422
-            );
-        }
+        // $validator = Validator::make($request->all(), [
+        //     'id_kategori' => 'required',
+        //     'id_subkategori' => 'required',
+        //     'nama_barang' => 'required',
+        //     'deskripsi' => 'required',
+        //     'harga' => 'required',
+        //     'diskon' => 'required',
+        //     'bahan' => 'required',
+        //     'tags' => 'required',
+        //     'sku' => 'required',
+        //     'ukuran' => 'required',
+        //     'warna' => 'required',
+        // ]);
+        // if ($validator->fails()) {
+        //     return response()->json(
+        //         $validator->errors(),
+        //         422
+        //     );
+        // }
         // get image
         $input = $request->all();
         if ($request->has('gambar')) {
@@ -138,6 +150,7 @@ class ProductController extends Controller
 
         $Product->update($input);
         return response()->json([
+            'success' => true,
             'message' => 'success',
             'data' => $Product
         ]);
@@ -151,6 +164,7 @@ class ProductController extends Controller
         File::delete('uploads/' . $Product->gambar);
         $Product->delete();
         return response()->json([
+            'success' => true,
             'message' => 'success'
         ]);
     }
