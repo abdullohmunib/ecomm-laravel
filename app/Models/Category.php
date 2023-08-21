@@ -11,4 +11,11 @@ class Category extends Model
 
     // artinya semua kolom bisa diisi, lebih singkat daripada menulis satu per satu nama kolom dengan awalan fillable
     protected $guarded = [];
+
+    // relatioan database one to many
+    public function subcategories()
+    {
+        return $this->hasMany(Subcategory::class);
+    }
+
 }

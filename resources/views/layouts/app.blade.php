@@ -62,7 +62,6 @@
                         <a class="collapse-item" href="/subkategori">Data Subkategori</a>
                         <a class="collapse-item" href="/slider">Data Slider</a>
                         <a class="collapse-item" href="/barang">Data Barang</a>
-                        <a class="collapse-item" href="/member">Data Member</a>
                         <a class="collapse-item" href="/testimoni">Data Testimoni</a>
                         <a class="collapse-item" href="/review">Data Reviews</a>
                     </div>
@@ -210,7 +209,8 @@
     <script src="sbadmin2/js/sb-admin-2.min.js"></script>
 
     {{-- get cookie for get access CRUD --}}
-    <script>
+    {{-- tidak jadi dipakai karena menggunakan localStorage --}}
+    {{-- <script>
         function getCookie(cname) {
             let name = cname + "=";
             let ca = document.cookie.split(';');
@@ -225,7 +225,7 @@
             }
             return "";
         }
-    </script>
+    </script> --}}
 
     {{-- add js --}}
     @stack('js')

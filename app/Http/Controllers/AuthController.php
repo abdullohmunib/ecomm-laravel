@@ -26,11 +26,8 @@ class AuthController extends Controller
         $credentials = request(['email', 'password']);
 
         if (auth()->attempt($credentials)) {
+            // create token
             $token = Auth::guard('api')->attempt($credentials);
-            // Cookie::queue(Cookie::make('token', $token, 60));
-            // alternatif make cookie
-            // cookie()->queue(cookie('token', $token, 60));
-            // return redirect('/dashboard');
             return response()->json([
                 'success' => true,
                 'message' => 'Login berhasil',
@@ -41,17 +38,7 @@ class AuthController extends Controller
             'success' => false,
             'message' => 'Email or password is incorrect'
         ]);
-        // return back()->withErrors('Email or password is incorrect');
-    }
-
-    // protected function respondWithToken($token)
-    // {
-    //     return response()->json([
-    //         'access_token' => $token,
-    //         'token_type' => 'bearer',
-    //         'expires_in' => auth()->factory()->getTTL() * 60
-    //     ]);
-    // }
+     }
 
     public function register(Request $request)
     {

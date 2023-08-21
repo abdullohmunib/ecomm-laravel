@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -14,15 +15,22 @@ class SubcategoryController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => 'index']);
+        $this->middleware('auth')->only(['list']);
+        $this->middleware('auth:api')->only(['store', 'update', 'edit', 'destroy']);
+    }
+
+    public function list()
+    {
+        $categories = Category::all();
+        return view('subkategori.index', compact('categories'));
     }
 
     public function index()
     {
         //
-        $categories = Subcategory::all();
+        $subcategories = Subcategory::with('category')->get();
         return response()->json([
-            'data' => $categories
+            'data' => $subcategories
         ]);
     }
 
@@ -66,6 +74,7 @@ class SubcategoryController extends Controller
 
         $Subcategory = Subcategory::create($input);
         return response()->json([
+            'success' => true,
             'data' => $Subcategory
         ]);
     }
@@ -120,6 +129,7 @@ class SubcategoryController extends Controller
 
         $Subcategory->update($input);
         return response()->json([
+            'success' => true,
             'message' => 'success',
             'data' => $Subcategory
         ]);
@@ -133,6 +143,7 @@ class SubcategoryController extends Controller
         File::delete('uploads/' . $Subcategory->gambar);
         $Subcategory->delete();
         return response()->json([
+            'success' => true,
             'message' => 'success'
         ]);
     }
