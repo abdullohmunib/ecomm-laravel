@@ -16,7 +16,7 @@ class SubcategoryController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->only(['list']);
-        $this->middleware('auth:api')->only(['store', 'update', 'edit', 'destroy']);
+        $this->middleware('auth:api')->only(['store', 'update', 'destroy']);
     }
 
     public function list()
@@ -47,13 +47,11 @@ class SubcategoryController extends Controller
      */
     public function store(Request $request)
     {
-
         // validation input
         $validator = Validator::make($request->all(), [
             "nama_subkategori" => 'required',
             "id_kategori" => 'required',
             "deskripsi" => 'required',
-            "gambar" => 'required|image|mimes:jpg,png,jpeg,webp'
         ]);
         if ($validator->fails()) {
             return response()->json(

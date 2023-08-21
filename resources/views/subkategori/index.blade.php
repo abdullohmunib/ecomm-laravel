@@ -173,7 +173,8 @@
                     $.get('/api/subcategories/' + id, function({
                         data
                     }) {
-                        $('input[name="nama_subkategori"]').val(data.nama_kategori);
+                        $('input[name="nama_subkategori"]').val(data.nama_subkategori);
+                        $('select[name="id_kategori"]').val(data.id_kategori);
                         $('textarea[name="deskripsi"]').val(data.deskripsi);
                     });
                     $('.form-subkategori').submit(function(e) {
