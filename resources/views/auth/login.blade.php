@@ -36,32 +36,32 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                     </div>
-                                    @if ($errors->any())
+                                    {{-- @if ($errors->any())
                                         <div class="alert alert-danger">
                                             <strong>Gagal</strong>
                                             <p>{{ $errors->first() }}</p>
                                         </div>
-                                    @endif
+                                    @endif --}}
                                     <form class="user form-login" method="POST" action="/login">
                                         @csrf
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user email"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"
                                                 placeholder="Enter Email Address..." name="email">
-                                            @error('email')
+                                            {{-- @error('email')
                                                 <small class="text-danger">
                                                     {{ $message }}
                                                 </small>
-                                            @enderror
+                                            @enderror --}}
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user password"
                                                 id="exampleInputPassword" placeholder="Password" name="password">
-                                            @error('password')
+                                            {{-- @error('password')
                                                 <small class="text-danger">
                                                     {{ $message }}
                                                 </small>
-                                            @enderror
+                                            @enderror --}}
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">

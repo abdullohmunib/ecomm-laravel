@@ -32,4 +32,3 @@ Route::get('/subkategori', [SubcategoryController::class, 'list']);
 Route::get('/slider', [SliderController::class, 'list']);
 Route::get('/barang', [ProductController::class, 'list']);
 Route::get('/testimoni', [TestimoniController::class, 'list']);
-Route::get('/review', [ReviewController::class, 'list']);

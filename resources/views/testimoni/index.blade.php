@@ -1,12 +1,12 @@
 @extends('layouts.app')
-@section('title', 'Data Kategori')
+@section('title', 'Data Testimoni')
 
 @section('content')
 
     <div class="card">
         <div class="card-header">
             <h4 class="card-title">
-                Data Kategori
+                Data Testimoni
             </h4>
         </div>
         <div class="card-body">
@@ -18,7 +18,7 @@
                     <thead class="text-center">
                         <tr>
                             <th>No</th>
-                            <th>Nama Kategori</th>
+                            <th>Nama Testimoni</th>
                             <th>Deskripsi</th>
                             <th>Gambar</th>
                             <th>Aksi</th>
@@ -35,7 +35,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Form Kategori</h5>
+                    <h5 class="modal-title">Form Testimoni</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -43,14 +43,14 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <form class="form-kategori">
+                            <form class="form-testimoni">
                                 <div class="form-group">
-                                    <label for="nama_kategori">Nama Kategori</label>
-                                    <input type="text" class="form-control" name="nama_kategori" id="nama_kategori"
-                                        placeholder="nama kategori" required>
+                                    <label for="nama_testimoni">Nama Testimoni</label>
+                                    <input type="text" class="form-control" name="nama_testimoni" id="nama_testimoni"
+                                        placeholder="nama testimoni" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="deskripsi">Nama Kategori</label>
+                                    <label for="deskripsi">deskripsi</label>
                                     <textarea name="deskripsi" id="deskripsi" cols="30" rows="10" class="form-control" placeholder="deskripsi"
                                         required></textarea>
                                 </div>
@@ -78,7 +78,7 @@
             $(function() {
                 // read
                 $.ajax({
-                    url: 'api/categories',
+                    url: 'api/testimonis',
                     success: function({
                         data
                     }) {
@@ -87,7 +87,7 @@
                             row += `
                                 <tr>
                                     <td>${index+1}</td>
-                                    <td>${val.nama_kategori}</td>
+                                    <td>${val.nama_testimoni}</td>
                                     <td>${val.deskripsi}</td>
                                     <td>
                                         <img src="/uploads/${val.gambar}" width="150">
@@ -110,7 +110,7 @@
                     confirm_dialog = confirm('Apakah anda yakin?');
                     if (confirm_dialog) {
                         $.ajax({
-                            url: '/api/categories/' + id,
+                            url: '/api/testimonis/' + id,
                             type: 'DELETE',
                             headers: {
                                 "Authorization": "Bearer" + token
@@ -128,14 +128,14 @@
                 // create/store/add
                 $('.modal-tambah').click(function() {
                     $('#modal-form').modal('show');
-                    $('input[name="nama_kategori"]').val('');
+                    $('input[name="nama_testimoni"]').val('');
                     $('textarea[name="deskripsi"]').val('');
-                    $('.form-kategori').submit(function(e) {
+                    $('.form-testimoni').submit(function(e) {
                         e.preventDefault();
                         const token = localStorage.getItem('token');
                         const frmdata = new FormData(this);
                         $.ajax({
-                            url: 'api/categories',
+                            url: 'api/testimonis',
                             type: 'POST',
                             data: frmdata,
                             cache: false,
@@ -158,18 +158,18 @@
                 $(document).on('click', '.modal-ubah', function() {
                     $('#modal-form').modal('show');
                     const id = $(this).data('id');
-                    $.get('/api/categories/' + id, function({
+                    $.get('/api/testimonis/' + id, function({
                         data
                     }) {
-                        $('input[name="nama_kategori"]').val(data.nama_kategori);
+                        $('input[name="nama_testimoni"]').val(data.nama_testimoni);
                         $('textarea[name="deskripsi"]').val(data.deskripsi);
                     });
-                    $('.form-kategori').submit(function(e) {
+                    $('.form-testimoni').submit(function(e) {
                         e.preventDefault();
                         const token = localStorage.getItem('token');
                         const frmdata = new FormData(this);
                         $.ajax({
-                            url: `api/categories/${id}?_method=PUT`,
+                            url: `api/testimonis/${id}?_method=PUT`,
                             type: 'POST',
                             data: frmdata,
                             cache: false,
