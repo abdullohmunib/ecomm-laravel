@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Member;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
@@ -15,14 +16,46 @@ class OrderController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => 'index']);
+        $this->middleware('auth')->only(['baru_list', 'dikonfirmasi_list', 'dikemas_list', 'dikirim_list', 'diterima_list', 'selesai_list']);
+        $this->middleware('auth:api')->only(['store', 'update', 'destroy', 'ubah_status', 'baru', 'dikonfirmasi', 'dikemas', 'dikirim', 'diterima', 'selesai']);
+    }
+
+    public function baru_list()
+    {
+        return view('pesanan.baru');
+    }
+
+    public function dikonfirmasi_list()
+    {
+        return view('pesanan.dikonfirmasi');
+    }
+
+    public function dikemas_list()
+    {
+        return view('pesanan.dikemas');
+    }
+
+    public function dikirim_list()
+    {
+        return view('pesanan.dikirim');
+    }
+
+    public function diterima_list()
+    {
+        return view('pesanan.diterima');
+    }
+
+    public function selesai_list()
+    {
+        return view('pesanan.selesai');
     }
 
     public function index()
     {
 
-        $orders = Order::all();
+        $orders = Order::with('member')->get();
         return response()->json([
+            'success' => true,
             'data' => $orders
         ]);
     }
@@ -67,6 +100,7 @@ class OrderController extends Controller
         }
 
         return response()->json([
+            'success' => true,
             'data' => $Order
         ]);
     }
@@ -77,6 +111,7 @@ class OrderController extends Controller
     public function show(Order $Order)
     {
         return response()->json([
+            'success' => true,
             'data' => $Order
         ]);
     }
@@ -121,6 +156,7 @@ class OrderController extends Controller
         }
 
         return response()->json([
+            'success' => true,
             'message' => 'success',
             'data' => $Order
         ]);
@@ -131,49 +167,63 @@ class OrderController extends Controller
         $order->update([
             'status' => $request['status']
         ]);
-
         return response()->json([
+            'success' => true,
             'message' => 'success',
             'data'    => $order
         ]);
     }
 
+    public function baru()
+    {
+        $orders = Order::with('member')->where('status', 'Baru')->get();
+        return response()->json([
+            'success' => true,
+            'data' => $orders
+        ]);
+    }
+
     public function dikonfirmasi()
     {
-        $orders = Order::where('status', 'Dikonfirmasi')->get();
+        $orders = Order::with('member')->where('status', 'Dikonfirmasi')->get();
         return response()->json([
+            'success' => true,
             'data' => $orders
         ]);
     }
 
     public function dikemas()
     {
-        $orders = Order::where('status', 'Dikemas')->get();
+        $orders = Order::with('member')->where('status', 'Dikemas')->get();
         return response()->json([
+            'success' => true,
             'data' => $orders
         ]);
     }
 
     public function dikirim()
     {
-        $orders = Order::where('status', 'Dikirim')->get();
+        $orders = Order::with('member')->where('status', 'Dikirim')->get();
         return response()->json([
+            'success' => true,
             'data' => $orders
         ]);
     }
 
     public function diterima()
     {
-        $orders = Order::where('status', 'Diterima')->get();
+        $orders = Order::with('member')->where('status', 'Diterima')->get();
         return response()->json([
+            'success' => true,
             'data' => $orders
         ]);
     }
 
     public function selesai()
     {
-        $orders = Order::where('status', 'selesai')->get();
+        $orders = Order::with('member')->where('status', 'selesai')->get();
         return response()->json([
+            'success' => true,
             'data' => $orders
         ]);
     }
@@ -186,6 +236,7 @@ class OrderController extends Controller
         File::delete('uploads/' . $Order->gambar);
         $Order->delete();
         return response()->json([
+            'success' => true,
             'message' => 'success'
         ]);
     }

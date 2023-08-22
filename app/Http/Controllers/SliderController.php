@@ -20,8 +20,7 @@ class SliderController extends Controller
 
     public function list()
     {
-        $sliders = Slider::all();
-        return view('slider.index', compact('sliders'));
+        return view('slider.index');
     }
 
     public function index()
