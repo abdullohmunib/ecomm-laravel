@@ -14,4 +14,9 @@ class Order extends Model
     {
         return $this->belongsTo(Member::class, 'id_member', 'id');
     }
+
+    public function payment()
+    {
+        return $this->hasMany(Payment::class);
+    }
 }

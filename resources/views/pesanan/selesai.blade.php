@@ -33,11 +33,10 @@
             $(function() {
 
                 function date(tanggal) {
-                    const date = new Date(tanggal);
-                    const day = date.getDate();
-                    const month = date.getMonth();
-                    const year = date.getYear();
-                    return `${day}-${month}-${year}`
+                    let create = new Date(tanggal)
+                    let form_dt = create.getFullYear() + "-" + (create.getMonth() + 1) + "-" + create.getDate() +
+                        " " + create.getHours() + ":" + create.getMinutes() + ":" + create.getSeconds();
+                    return form_dt;
                 }
 
                 function rupiah(angka) {

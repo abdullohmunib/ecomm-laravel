@@ -87,6 +87,13 @@
                 </div>
             </li>
 
+            <!-- Nav Item - Payment -->
+            <li class="nav-item">
+                <a class="nav-link" href="/payment">
+                    <i class="fas fa-fw fa-credit-card"></i>
+                    <span>Pembayaran</span></a>
+            </li>
+
             <!-- Nav Item - Laporan Pesanan -->
             <li class="nav-item">
                 <a class="nav-link" href="/laporan">
