@@ -69,7 +69,45 @@ class AuthController extends Controller
         ]);
     }
 
-    public function login_member(Request $request)
+    public function register_member()
+    {
+        return view('auth.register_member');
+    }
+
+    public function register_member_action(Request $request)
+    {
+        // validation input
+        $validator = Validator::make($request->all(), [
+            "nama_member" => 'required',
+            'provinsi' => 'required',
+            'kabupaten' => 'required',
+            'kecamatan' => 'required',
+            'detail_alamat' => 'required',
+            'no_hp' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|same:konfirmasi_password',
+            'konfirmasi_password' => 'required|sa me:password',
+        ]);
+        if ($validator->fails()) {
+            Session::flash('errors', $validator->errors()->toArray());
+            return redirect('/register_member');
+        }
+
+        $request['password'] = bcrypt($request->password);
+        unset($request['konfirmasi_password']);
+        Member::create($request->all());
+
+        Session::flash('success', 'Account successfully created!');
+        return redirect('/login_member');
+        
+    }
+
+    public function login_member()
+    {
+        return view('auth.login_member');
+    }
+
+    public function login_member_action(Request $request)
     {
         // validation input
         $validator = Validator::make($request->all(), [
@@ -77,10 +115,8 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
         if ($validator->fails()) {
-            return response()->json(
-                $validator->errors(),
-                422
-            );
+            Session::flash('failed', $validator->errors()->toArray());
+            return redirect('/login_member');
         }
 
         $member = Member::where('email', $request->email)->first();
@@ -92,16 +128,12 @@ class AuthController extends Controller
                     'data' => $member
                 ], 200);
             } else {
-                return response()->json([
-                    'message'=>'Failed',
-                    'data' => 'password is incorrect'
-                ], 422);
+                Session::flash('failed', 'Password incorrect');
+                return redirect('/login_member');
             }
         }else{
-            return response()->json([
-                'message' => 'failed',
-                'data' => 'email is incorrect'
-            ]);
+            Session::flash('failed', 'Email not found');
+            return redirect('/login_member');
         }
         
     }

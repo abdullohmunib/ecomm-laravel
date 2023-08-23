@@ -31,7 +31,6 @@ Route::group([
 ], function () {
     Route::post('admin', [AuthController::class, 'login']);
     Route::post('register', [AuthController::class, 'register']);
-    // Route::post('login', [AuthController::class, 'login_member']); move ke route web
     Route::post('logout', [AuthController::class, 'logout']);
 });
 
