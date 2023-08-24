@@ -101,6 +101,13 @@
                     <span>Laporan Pesanan</span></a>
             </li>
 
+            <!-- Nav Item - Tentang -->
+            <li class="nav-item">
+                <a class="nav-link" href="/tentang">
+                    <i class="fas fa-fw fa-globe"></i>
+                    <span>Tentang</span></a>
+            </li>
+
             <!-- Nav Item - Logout -->
             <li class="nav-item">
                 <a class="nav-link" href="/logout">
