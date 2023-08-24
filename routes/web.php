@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
@@ -23,10 +24,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
 
 //auth admin
 Route::get('/login', [AuthController::class, 'index'])->name('login');
@@ -57,3 +54,14 @@ Route::get('/pesanan/diterima', [OrderController::class, 'diterima_list']);
 Route::get('/pesanan/selesai', [OrderController::class, 'selesai_list']);
 
 Route::get('/laporan', [ReportController::class, 'index']);
+
+// home routes
+Route::get('/', [HomeController::class, 'index']);
+Route::get('/products/{category}', [HomeController::class, 'products']);
+Route::get('/product/{id}', [HomeController::class, 'product']);
+Route::get('/cart', [HomeController::class, 'cart']);
+Route::get('/checkout', [HomeController::class, 'checkout']);
+Route::get('/orders', [HomeController::class, 'orders']);
+Route::get('/about', [HomeController::class, 'about']);
+Route::get('/contact', [HomeController::class, 'contact']);
+Route::get('/faq', [HomeController::class, 'faq']);
