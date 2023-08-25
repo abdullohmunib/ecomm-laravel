@@ -60,7 +60,7 @@ Route::post('/tentang/{about}', [TentangController::class, 'update']);
 
 // home routes
 Route::get('/', [HomeController::class, 'index']);
-Route::get('/products/{category}', [HomeController::class, 'products']);
+Route::get('/products/{id_subcategory}', [HomeController::class, 'products']);
 Route::get('/product/{id}', [HomeController::class, 'product']);
 Route::get('/cart', [HomeController::class, 'cart']);
 Route::get('/checkout', [HomeController::class, 'checkout']);

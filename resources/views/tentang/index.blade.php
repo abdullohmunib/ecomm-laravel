@@ -14,6 +14,7 @@
                 <div class="col-md-12">
                     <form class="form-tentang">
                         @csrf
+                        <input type="hidden" value="{{ $about->id }}">
                         <div class="form-group">
                             <label for="judul_website">Judul Website</label>
                             <input type="text" class="form-control" name="judul_website" id="judul_website"
@@ -58,10 +59,11 @@
                 // create/store/add
                 $('.form-tentang').submit(function(e) {
                     e.preventDefault();
-                    const token = localStorage.getItem('token');
-                    const frmdata = new FormData(this);
+                    const token = localStorage.getItem('token')
+                    const frmdata = new FormData(this)
+                    const id = {{ $about->id }}
                     $.ajax({
-                        url: `/tentang/` + {{ $about->id }},
+                        url: `/tentang/${id}`,
                         type: 'POST',
                         data: frmdata,
                         cache: false,
