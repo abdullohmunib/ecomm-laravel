@@ -45,6 +45,16 @@
                                 required value="{{ $about->telepon }}">
                         </div>
                         <div class="form-group">
+                            <label for="atas_nama">Atas Nama</label>
+                            <input type="text" class="form-control" name="atas_nama" placeholder="atas nama"
+                                id="atas_nama" required value="{{ $about->atas_nama }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="no_rekening">Nomor Rekening</label>
+                            <input type="text" class="form-control" name="no_rekening" placeholder="nomor rekening"
+                                id="no_rekening" required value="{{ $about->no_rekening }}">
+                        </div>
+                        <div class="form-group">
                             <button type="submit" class="btn btn-primary btn-block">Submit</button>
                         </div>
                     </form>

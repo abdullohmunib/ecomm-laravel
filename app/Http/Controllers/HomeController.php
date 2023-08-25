@@ -9,6 +9,7 @@ use App\Models\Slider;
 use App\Models\Subcategory;
 use App\Models\Testimoni;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {

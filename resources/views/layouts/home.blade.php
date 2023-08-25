@@ -159,11 +159,15 @@
                                     </ul> <!-- end menu -->
                                 </div> <!-- end collapse -->
                             </div> <!-- end col -->
-
                             <div class="flex-child flex-right nav-right hidden-sm hidden-xs">
                                 <ul>
                                     <li class="nav-register">
-                                        <a href="/login_member ">Login</a>
+                                        @if (Auth::guard('webmember')->check())
+                                            <a
+                                                href="/profile ">{{ Auth::guard('webmember')->user()->nama_member }}</a>
+                                        @else
+                                            <a href="/login_member ">Login</a>
+                                        @endif
                                     </li>
                                     <li class="nav-search-wrap style-2 hidden-sm hidden-xs">
                                         <a href="#" class="nav-search search-trigger">
@@ -176,6 +180,11 @@
                                                 <a href="/cart" class="nav-cart-icon"></a>
                                             </div>
                                         </div>
+                                    </li>
+                                    <li class="nav-register">
+                                        @if (Auth::guard('webmember')->check())
+                                            <a href="/logout_member" style="color: red">Logout</a>
+                                        @endif
                                     </li>
                                 </ul>
                             </div>
