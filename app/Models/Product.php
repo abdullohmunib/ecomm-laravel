@@ -10,6 +10,11 @@ class Product extends Model
     use HasFactory;
     protected $guarded = [];
 
+    public function cart()
+    {
+        return $this->hasMany(Cart::class);
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class, 'id_kategori', 'id');
@@ -19,4 +24,6 @@ class Product extends Model
     {
         return $this->belongsTo(Subcategory::class, 'id_subkategori', 'id');
     }
+
+
 }

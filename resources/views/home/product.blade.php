@@ -91,7 +91,9 @@
                             $colors = explode(',', $product->warna);
                         @endphp
                         @foreach ($colors as $color)
-                            <a href="#" class="colour">{{ $color }}</a>
+                            <input type="radio" name="warna" id="{{ $color }}" value="{{ $color }}"
+                                class="warna">
+                            <label for="{{ $color }}" style="margin-right: 20px">{{ $color }}</label>
                         @endforeach
                     </div>
 
@@ -101,7 +103,9 @@
                             $sizes = explode(',', $product->ukuran);
                         @endphp
                         @foreach ($sizes as $size)
-                            <a href="#" class="size">{{ $size }}</a>
+                            <input type="radio" name="ukuran" id="{{ $size }}" value="{{ $size }}"
+                                class="ukuran">
+                            <label for="{{ $size }}" style="margin-right: 20px">{{ $size }}</label>
                         @endforeach
                     </div>
 
@@ -110,7 +114,7 @@
 
                         <div class="quantity buttons_added">
                             <input type="number" step="1" min="0" value="1" title="Qty"
-                                class="input-text qty text" />
+                                class="input-text qty text jumlah" />
                             <div class="quantity-adjust">
                                 <a href="#" class="plus">
                                     <i class="fa fa-angle-up"></i>
@@ -121,7 +125,7 @@
                             </div>
                         </div>
 
-                        <a href="/cart" class="btn btn-dark btn-lg add-to-cart"><span>Add to Cart</span></a>
+                        <a href="#" class="btn btn-dark btn-lg add-to-cart"><span>Add to Cart</span></a>
 
                         <a href="#" class="product-add-to-wishlist"><i class="fa fa-heart"></i></a>
                     </div>
@@ -251,5 +255,40 @@
         </div>
     </section> <!-- end related products -->
 
-
 @endsection
+
+@push('js')
+    <script>
+        $('.add-to-cart').click(function(e) {
+            id_member = {{ Auth::guard('webmember')->user()->id }}
+            id_barang = {{ $product->id }}
+            jumlah = $('.jumlah').val();
+            ukuran = $('.ukuran').val();
+            warna = $('.warna').val();
+            total = {{ $product->harga }} * jumlah
+            is_checkout = 0
+
+            const token = localStorage.getItem('token')
+
+            $.ajax({
+                url: '/add_to_cart',
+                type: 'POST',
+                headers: {
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                },
+                data: {
+                    id_barang,
+                    id_member,
+                    jumlah,
+                    ukuran,
+                    warna,
+                    total,
+                    is_checkout,
+                },
+                success: function(data) {
+                    window.location.href = '/cart';
+                }
+            })
+        });
+    </script>
+@endpush

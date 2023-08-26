@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\About;
+use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Slider;
@@ -13,6 +14,9 @@ use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
+    // public function __construct() {
+    //     $this->middleware('auth')->only('add_to_cart');
+    // }
     public function index()
     {
         $categories = Category::all();
@@ -34,7 +38,8 @@ class HomeController extends Controller
     }
     public function cart()
     {
-        return view('home.cart');
+        $carts = Cart::where('id_member', Auth::guard('webmember')->user()->id)->get();
+        return view('home.cart', compact('carts'));
     }
     public function checkout()
     {
@@ -59,6 +64,20 @@ class HomeController extends Controller
     {
         return view('home.faq');
     }
+
+    public function add_to_cart(Request $request)
+    {
+        Cart::create($request->all());
+
+    }
+
+    public function delete_from_cart(Cart $cart)
+    {
+        $cart->delete();
+        return redirect('/cart');
+    }
+
+
 
 
 }

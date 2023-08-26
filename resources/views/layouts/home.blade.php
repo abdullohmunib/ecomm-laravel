@@ -177,7 +177,11 @@
                                     <li class="nav-cart">
                                         <div class="nav-cart-outer">
                                             <div class="nav-cart-inner">
-                                                <a href="/cart" class="nav-cart-icon"></a>
+                                                @if (Auth::guard('webmember')->check())
+                                                    <a href="/cart" class="nav-cart-icon"></a>
+                                                @else
+                                                    <a href="/login_member" class="nav-cart-icon"></a>
+                                                @endif
                                             </div>
                                         </div>
                                     </li>
@@ -322,7 +326,7 @@
     <script type="text/javascript" src="{{ asset('assets/frontend/js/bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/frontend/js/plugins.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/frontend/js/scripts.js') }}"></script>
-
+    @stack('js')
 </body>
 
 </html>

@@ -18,87 +18,49 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="cart_item">
-                                    <td class="product-thumbnail">
-                                        <a href="#">
-                                            <img src="{{ asset('assets/frontend/img/shop/shop_item_3.jpg') }}"
-                                                alt="">
-                                        </a>
-                                    </td>
-                                    <td class="product-name">
-                                        <a href="#">Fashion Shorts</a>
-                                        <ul>
-                                            <li>Size: XL</li>
-                                            <li>Color: White</li>
-                                        </ul>
-                                    </td>
-                                    <td class="product-price">
-                                        <span class="amount">$1250.00</span>
-                                    </td>
-                                    <td class="product-quantity">
-                                        <div class="quantity buttons_added">
-                                            <input type="number" step="1" min="0" value="1"
-                                                title="Qty" class="input-text qty text">
-                                            <div class="quantity-adjust">
-                                                <a href="#" class="plus">
-                                                    <i class="fa fa-angle-up"></i>
-                                                </a>
-                                                <a href="#" class="minus">
-                                                    <i class="fa fa-angle-down"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="product-subtotal">
-                                        <span class="amount">$1250.00</span>
-                                    </td>
-                                    <td class="product-remove">
-                                        <a href="#" class="remove" title="Remove this item">
-                                            <i class="ui-close"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-
-                                <tr class="cart_item">
-                                    <td class="product-thumbnail">
-                                        <a href="#">
-                                            <img src="{{ asset('assets/frontend/img/shop/shop_item_7.jpg') }}"
-                                                alt="">
-                                        </a>
-                                    </td>
-                                    <td class="product-name">
-                                        <a href="#">Business Suit</a>
-                                        <ul>
-                                            <li>Size: L</li>
-                                            <li>Color: Black</li>
-                                        </ul>
-                                    </td>
-                                    <td class="product-price">
-                                        <span class="amount">$240.00</span>
-                                    </td>
-                                    <td class="product-quantity">
-                                        <div class="quantity buttons_added">
-                                            <input type="number" step="1" min="0" value="1"
-                                                title="Qty" class="input-text qty text">
-                                            <div class="quantity-adjust">
-                                                <a href="#" class="plus">
-                                                    <i class="fa fa-angle-up"></i>
-                                                </a>
-                                                <a href="#" class="minus">
-                                                    <i class="fa fa-angle-down"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="product-subtotal">
-                                        <span class="amount">$240.00</span>
-                                    </td>
-                                    <td class="product-remove">
-                                        <a href="#" class="remove" title="Remove this item">
-                                            <i class="ui-close"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                @foreach ($carts as $cart)
+                                    <tr class="cart_item">
+                                        <td class="product-thumbnail">
+                                            <a href="#">
+                                                <img src="/uploads/{{ $cart->product->gambar }}" alt="">
+                                            </a>
+                                        </td>
+                                        <td class="product-name">
+                                            <a href="#">{{ $cart->product->nama_barang }}</a>
+                                            <ul>
+                                                <li>Size: {{ $cart->ukuran }}</li>
+                                                <li>Color: {{ $cart->warna }}</li>
+                                            </ul>
+                                        </td>
+                                        <td class="product-price">
+                                            <span class="amount">Rp. {{ number_format($cart->product->harga) }}</span>
+                                        </td>
+                                        <td class="product-quantity">
+                                            {{-- <div class="quantity buttons_added">
+                                                <input type="number" step="1" min="0"
+                                                    value="{{ $cart->jumlah }}" title="Qty" class="input-text qty text">
+                                                <div class="quantity-adjust">
+                                                    <a href="#" class="plus">
+                                                        <i class="fa fa-angle-up"></i>
+                                                    </a>
+                                                    <a href="#" class="minus">
+                                                        <i class="fa fa-angle-down"></i>
+                                                    </a>
+                                                </div>
+                                            </div> --}}
+                                            <span class="qty text">{{ $cart->jumlah }}</span>
+                                        </td>
+                                        <td class="product-subtotal">
+                                            <span class="amount">Rp. {{ number_format($cart->total) }}</span>
+                                        </td>
+                                        <td class="product-remove">
+                                            <a href="/delete_from_cart/{{ $cart->id }}" class="remove"
+                                                title="Remove this item">
+                                                <i class="ui-close"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
