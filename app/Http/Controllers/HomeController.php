@@ -38,9 +38,70 @@ class HomeController extends Controller
     }
     public function cart()
     {
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://api.rajaongkir.com/starter/province",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => array(
+                "key: 9372073f14e462197de9e792d463e9a5"
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+        echo "cURL Error #:" . $err;
+        }
+        $provinsi = json_decode($response);
+
+        if (!Auth::guard('webmember')->user()) {
+            return redirect('/login_member');
+        }
         $carts = Cart::where('id_member', Auth::guard('webmember')->user()->id)->get();
-        return view('home.cart', compact('carts'));
+        return view('home.cart', compact(['carts', 'provinsi']));
     }
+
+    public function get_kabupaten($id_province)
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://api.rajaongkir.com/starter/city?province=' . $id_province,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => array(
+                "key: 9372073f14e462197de9e792d463e9a5"
+            ),
+            ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+        echo "cURL Error #:" . $err;
+        } else {
+            echo $response;
+        }
+        
+        
+    }
+
     public function checkout()
     {
         return view('home.checkout');
