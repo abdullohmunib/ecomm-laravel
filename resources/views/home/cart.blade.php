@@ -97,23 +97,22 @@
                                 <option value="{{ $prov->province_id }}">{{ $prov->province }}</option>
                             @endforeach
                         </select>
+                    <p class="form-row form-row-wide">
                         <select name="kabupaten" id="kabupaten" class="kabupaten">
-                            <option value="">Select Kabupaten</option>
                         </select>
                     </p>
-
-                    <div class="row row-10">
-                        <div class="col-sm-12">
-                            <p class="form-row form-row-wide">
-                                <input type="text" class="input-text" value placeholder="Detail Alamat"
-                                    name="detail_alamat" id="detail_alamat">
-                            </p>
-                        </div>
-                    </div>
+                    <p class="form-row form-row-wide">
+                        <input type="text" class="input-text berat" value placeholder="Berat (x1000g)" name="berat"
+                            id="berat">
+                    </p>
+                    <p>
+                        <input type="text" class="input-text" value placeholder="Detail Alamat" name="detail_alamat"
+                            id="detail_alamat">
+                    </p>
 
                     <p>
                         <input type="submit" name="calc_shipping" value="Update Totals"
-                            class="btn btn-lg btn-stroke mt-10 mb-mdm-40">
+                            class="btn btn-lg btn-stroke mt-10 mb-mdm-40 update-shipping">
                     </p>
                 </div> <!-- end col shipping calculator -->
 
@@ -126,19 +125,19 @@
                                 <tr class="cart-subtotal">
                                     <th>Cart Subtotal</th>
                                     <td>
-                                        <span class="amount">0</span>
+                                        <span class="amount cart-subtotal">{{ $carts_subtotal }}</span>
                                     </td>
                                 </tr>
                                 <tr class="shipping">
                                     <th>Shipping</th>
                                     <td>
-                                        <span>0</span>
+                                        <span class="shipping-cost">0</span>
                                     </td>
                                 </tr>
                                 <tr class="order-total">
                                     <th>Order Total</th>
                                     <td>
-                                        <strong><span class="amount">0</span></strong>
+                                        <strong><span class="amount cart-grand-total">0</span></strong>
                                     </td>
                                 </tr>
                             </tbody>
@@ -171,6 +170,23 @@
                     }
                 })
             });
+
+            $('.update-shipping').click(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    url: '/get_ongkir/' + $('.kabupaten').val() + '/' + $('.berat').val(),
+                    success: function(data) {
+                        data = JSON.parse(data)
+
+                        grandTotal = parseInt(data.rajaongkir.results[0].costs[0].cost[0]
+                            .value) + {{ $carts_subtotal }}
+
+                        $('.shipping-cost').text(data.rajaongkir.results[0].costs[0].cost[0]
+                            .value)
+                        $('.cart-grand-total').text(grandTotal)
+                    }
+                });
+            })
         });
     </script>
 @endpush

@@ -68,7 +68,8 @@ class HomeController extends Controller
             return redirect('/login_member');
         }
         $carts = Cart::where('id_member', Auth::guard('webmember')->user()->id)->get();
-        return view('home.cart', compact(['carts', 'provinsi']));
+        $carts_subtotal = Cart::where('id_member', Auth::guard('webmember')->user()->id)->sum('total');
+        return view('home.cart', compact(['carts', 'provinsi', 'carts_subtotal']));
     }
 
     public function get_kabupaten($id_province)
@@ -97,9 +98,38 @@ class HomeController extends Controller
         echo "cURL Error #:" . $err;
         } else {
             echo $response;
+        }  
+    }
+
+    public function get_ongkir($destination, $weight)
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://api.rajaongkir.com/starter/cost",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => "origin=18&destination=".$destination."&weight=".$weight."&courier=jne",
+            CURLOPT_HTTPHEADER => array(
+                "content-type: application/x-www-form-urlencoded",
+                "key: 9372073f14e462197de9e792d463e9a5"
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+        echo "cURL Error #:" . $err;
+        } else {
+        echo $response;
         }
-        
-        
     }
 
     public function checkout()
